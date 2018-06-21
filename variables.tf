@@ -109,3 +109,9 @@ variable "consul_download_url" {
   description = "Consul Binary Download URL"
   default     = "https://releases.hashicorp.com/consul/1.1.0/consul_1.1.0_linux_amd64.zip"
 }
+
+variable "consul_config" {
+  type        = "string"
+  description = "Custom Consul Config"
+  default     = "./config/consul-default.json"
+}

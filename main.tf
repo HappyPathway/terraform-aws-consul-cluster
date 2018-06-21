@@ -35,6 +35,7 @@ resource "aws_instance" "server" {
       "${path.module}/scripts/install.sh",
       "${path.module}/scripts/service.sh",
       "${path.module}/scripts/ip_tables.sh",
+      "echo ${file("${var.consul_config}")} > /etc/consul.d/consul-config.json",
     ]
   }
 }
