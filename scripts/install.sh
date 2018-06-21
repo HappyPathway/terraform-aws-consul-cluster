@@ -50,6 +50,5 @@ else
   sudo chmod 0644 /etc/systemd/system/consul.service
   sudo mv /tmp/consul_flags /etc/sysconfig/consul
   sudo chown root:root /etc/sysconfig/consul
-  sudo mv /tmp/consul-config.json /etc/systemd/system/consul.d/consul-config.json
   sudo chmod 0644 /etc/sysconfig/consul
 fi
