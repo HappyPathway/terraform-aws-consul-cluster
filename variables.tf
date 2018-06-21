@@ -103,3 +103,9 @@ variable "vpc_id" {
   type        = "string"
   description = "ID of the VPC to use - in case your account doesn't have default VPC"
 }
+
+variable "consul_download_url" {
+  type        = "string"
+  description = "Consul Binary Download URL"
+  default     = "https://releases.hashicorp.com/consul/1.1.0/consul_1.1.0_linux_amd64.zip"
+}
