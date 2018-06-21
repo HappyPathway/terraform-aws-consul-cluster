@@ -27,7 +27,7 @@ resource "aws_instance" "server" {
       "echo ${var.servers} > /tmp/consul-server-count",
       "echo ${aws_instance.server.0.private_ip} > /tmp/consul-server-addr",
       "echo ${var.consul_download_url} > /tmp/consul-download-url",
-      "echo ${file("${var.consul_config}")} > /tmp/consul-config.json",
+      "echo '${file("${var.consul_config}")}' > /tmp/consul-config.json",
     ]
   }
 
