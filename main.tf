@@ -22,12 +22,16 @@ resource "aws_instance" "server" {
     destination = "/tmp/${lookup(var.service_conf_dest, var.platform)}"
   }
 
+  provisioner "file" {
+    source      = "${var.consul_config}"
+    destination = "/tmp/consul-config.json"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "echo ${var.servers} > /tmp/consul-server-count",
       "echo ${aws_instance.server.0.private_ip} > /tmp/consul-server-addr",
       "echo ${var.consul_download_url} > /tmp/consul-download-url",
-      "echo '${file("${var.consul_config}")}' > /tmp/consul-config.json",
     ]
   }
 
