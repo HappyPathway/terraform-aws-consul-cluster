@@ -38,7 +38,7 @@ then
   sudo mv /tmp/upstart.conf /etc/init/consul.conf
   sudo chmod 0644 /etc/init/consul.conf
   sudo mv /tmp/consul_flags /etc/service/consul
-  sudo mv /tmp/consul-config.json /etc/consul.d/consul-config.json
+  sudo mv /tmp/consul*.json /etc/consul.d/ || echo
   sudo chmod 0644 /etc/service/consul
 else
   echo "Installing Systemd service..."
