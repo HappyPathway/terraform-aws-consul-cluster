@@ -11,11 +11,7 @@ resource "aws_instance" "server" {
     private_key = "${var.ssh_private_key}"
   }
 
-  #Instance tags
-  tags {
-    Name       = "${var.tagName}-${count.index}"
-    ConsulRole = "Server"
-  }
+  tags = "${merge(map("Name", "${var.tagName}-${count.index}", "ConsulRole", "Server"), var.resource_tags)}"
 
   provisioner "file" {
     source      = "${path.module}/scripts/${lookup(var.service_conf, var.platform)}"
@@ -41,42 +37,5 @@ resource "aws_instance" "server" {
       "${path.module}/scripts/service.sh",
       "${path.module}/scripts/ip_tables.sh",
     ]
-  }
-}
-
-resource "aws_security_group" "consul" {
-  name        = "consul_${var.platform}"
-  description = "Consul internal traffic + maintenance."
-  vpc_id      = "${var.vpc_id}"
-
-  // These are for internal traffic
-  ingress {
-    from_port = 0
-    to_port   = 65535
-    protocol  = "tcp"
-    self      = true
-  }
-
-  ingress {
-    from_port = 0
-    to_port   = 65535
-    protocol  = "udp"
-    self      = true
-  }
-
-  // These are for maintenance
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  // This is for outbound internet access
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
   }
 }

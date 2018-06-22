@@ -115,3 +115,9 @@ variable "consul_config" {
   description = "Custom Consul Config"
   default     = "./config/consul-default.json"
 }
+
+variable "resource_tags" {
+  description = "Optional map of tags to set on resources, defaults to empty map."
+  type        = "map"
+  default     = {}
+}
