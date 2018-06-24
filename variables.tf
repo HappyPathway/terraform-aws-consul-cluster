@@ -116,6 +116,12 @@ variable "consul_config" {
   default     = "./config/consul-default.json"
 }
 
+variable "consul_access" {
+  type        = "string"
+  default     = "0.0.0.0/0"
+  description = "Whitelisted IP Addresses for Consul Cluster Access KV"
+}
+
 variable "resource_tags" {
   description = "Optional map of tags to set on resources, defaults to empty map."
   type        = "map"
