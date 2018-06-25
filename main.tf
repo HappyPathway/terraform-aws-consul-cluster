@@ -181,7 +181,7 @@ resource "aws_security_group_rule" "consul-elb-http" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "consul-elb-http" {
+resource "aws_security_group_rule" "consul-elb-client" {
   security_group_id = "${aws_security_group.elb.id}"
   type              = "ingress"
   from_port         = 8301
