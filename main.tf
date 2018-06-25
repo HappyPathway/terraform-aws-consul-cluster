@@ -2,7 +2,8 @@ resource "template_file" "install" {
   template = "${file("${path.module}/scripts/install.sh.tpl")}"
 
   vars {
-    env = "${var.env}"
+    env        = "${var.env}"
+    datacenter = "${var.datacenter}"
   }
 }
 
@@ -79,7 +80,6 @@ resource "aws_autoscaling_group" "consul" {
 module "consul_instance_profile" {
   region        = "${var.region}"
   source        = "./instance-policy"
-  kms_arn       = "${aws_kms_key.vault.arn}"
   resource_tags = "${var.resource_tags}"
 }
 
@@ -87,21 +87,25 @@ resource "aws_launch_configuration" "vault" {
   image_id             = "${data.aws_ami.consul.id}"
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"
-  security_groups      = ["${aws_security_group.consul.id}"]
   user_data            = "${template_file.install.rendered}"
-  iam_instance_profile = "${module.vault_instance_profile.policy}"
+  iam_instance_profile = "${module.consul_instance_profile.policy}"
+
+  security_groups = [
+    "${aws_security_group.consul.id}",
+    "${aws_security_group.consul-nodes.id}",
+  ]
 }
 
 // Security group for Vault allows SSH and HTTP access (via "tcp" in
 // case TLS is used)
-resource "aws_security_group" "vault" {
-  name        = "vault"
-  description = "Vault servers"
+resource "aws_security_group" "consul" {
+  name        = "consul-${var.env}"
+  description = "Consul servers"
   vpc_id      = "${var.vpc_id}"
 }
 
-resource "aws_security_group_rule" "vault-ssh" {
-  security_group_id = "${aws_security_group.vault.id}"
+resource "aws_security_group_rule" "consul-ssh" {
+  security_group_id = "${aws_security_group.consul.id}"
   type              = "ingress"
   from_port         = 22
   to_port           = 22
@@ -111,8 +115,8 @@ resource "aws_security_group_rule" "vault-ssh" {
 
 // This rule allows Vault HTTP API access to individual nodes, since each will
 // need to be addressed individually for unsealing.
-resource "aws_security_group_rule" "vault-http-api" {
-  security_group_id = "${aws_security_group.vault.id}"
+resource "aws_security_group_rule" "consul-http-api" {
+  security_group_id = "${aws_security_group.consul.id}"
   type              = "ingress"
   from_port         = 8200
   to_port           = 8200
@@ -120,8 +124,8 @@ resource "aws_security_group_rule" "vault-http-api" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "vault-egress" {
-  security_group_id = "${aws_security_group.vault.id}"
+resource "aws_security_group_rule" "consul-egress" {
+  security_group_id = "${aws_security_group.consul.id}"
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -143,6 +147,13 @@ resource "aws_elb" "consul" {
     instance_port     = 8500
     instance_protocol = "tcp"
     lb_port           = 8500
+    lb_protocol       = "tcp"
+  }
+
+  listener {
+    instance_port     = 8301
+    instance_protocol = "tcp"
+    lb_port           = 8301
     lb_protocol       = "tcp"
   }
 

@@ -127,3 +127,9 @@ variable "resource_tags" {
   type        = "map"
   default     = {}
 }
+
+variable "consul_datacenter" {
+  description = "Consul Datacenter"
+  type        = "string"
+  default     = "dc1"
+}

@@ -1,4 +1,4 @@
-resource "aws_security_group" "consul" {
+resource "aws_security_group" "consul-nodes" {
   name        = "${lookup(var.resource_tags, "ClusterName")}-consul"
   description = "Consul internal traffic + maintenance."
   vpc_id      = "${var.vpc_id}"
