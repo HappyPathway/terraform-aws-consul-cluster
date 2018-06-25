@@ -1,7 +1,7 @@
 # Setup the configuration
 #consul conf
 hostname=$$(hostname)
-ip_address=$$(ifconfig eth0 | grep "inet addr" | awk '{ print substr($2,6) })
+ip_address=$$(ifconfig eth0 | grep "inet addr" | awk '{ print substr($2,6) }')
 
 cat << EOF > /etc/consul.d/consul-join.hcl
 {
@@ -19,7 +19,7 @@ cat << EOF > /etc/consul.d/consul-node.json
 {
     "advertise_addr": "$${ip_address}",
     "node_name": "$${hostname}",
-    "datacenter": "$${datacenter}"
+    "datacenter": "${datacenter}"
 }
 EOF
 
