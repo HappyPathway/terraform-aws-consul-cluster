@@ -42,7 +42,7 @@ resource "aws_autoscaling_group" "consul" {
 
   tag {
     key                 = "Name"
-    value               = "${lookup(var.resource_tags, "ClusterName")}"
+    value               = "${lookup(var.resource_tags, "ClusterName")}-${var.env}"
     propagate_at_launch = true
   }
 
