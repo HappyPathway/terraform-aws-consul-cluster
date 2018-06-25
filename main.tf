@@ -118,8 +118,8 @@ resource "aws_security_group_rule" "consul-ssh" {
 resource "aws_security_group_rule" "consul-http-api" {
   security_group_id = "${aws_security_group.consul.id}"
   type              = "ingress"
-  from_port         = 8200
-  to_port           = 8200
+  from_port         = 8500
+  to_port           = 8500
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
 }
@@ -177,6 +177,15 @@ resource "aws_security_group_rule" "consul-elb-http" {
   type              = "ingress"
   from_port         = 8500
   to_port           = 8500
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "consul-elb-http" {
+  security_group_id = "${aws_security_group.elb.id}"
+  type              = "ingress"
+  from_port         = 8301
+  to_port           = 8301
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
 }

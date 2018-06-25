@@ -33,6 +33,13 @@ resource "aws_security_group" "consul-nodes" {
     cidr_blocks = ["${var.consul_access}"]
   }
 
+  ingress {
+    from_port   = 8301
+    to_port     = 8301
+    protocol    = "tcp"
+    cidr_blocks = ["${var.consul_access}"]
+  }
+
   // This is for outbound internet access
   egress {
     from_port   = 0
