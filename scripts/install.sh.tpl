@@ -14,7 +14,8 @@ EOF
 
 cat << EOF > /etc/consul.d/consul-type.json
 {
-    "server": true
+    "server": true,
+    "ui": true
 }
 EOF
 
