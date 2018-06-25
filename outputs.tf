@@ -1,15 +1,7 @@
-output "public_addresses" {
-  value = "${aws_instance.server.*.public_ip}"
-}
-
-output "private_addresses" {
-  value = "${aws_instance.server.*.private_ip}"
+output "cluster" {
+  value = "${aws_elb.consul.dns_name}"
 }
 
 output "security_group" {
   value = "${aws_security_group.consul.id}"
-}
-
-output "instances" {
-  value = "${aws_instance.server.*.id}"
 }
