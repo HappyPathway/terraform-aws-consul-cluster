@@ -133,3 +133,25 @@ variable "consul_datacenter" {
   type        = "string"
   default     = "dc1"
 }
+
+variable "env" {
+  description = "Name of environment that Consul is running in"
+  type        = "string"
+}
+
+variable "service_name" {
+  description = "Name of Service. Should most likely by consul"
+  type        = "string"
+  default     = "consul"
+}
+
+variable "service_version" {
+  description = "Version of AMI to user"
+  type        = "string"
+  default     = "1.0.0"
+}
+
+variable "availability_zone" {
+  description = "AWS to place Consul Cluster"
+  type        = "string"
+}

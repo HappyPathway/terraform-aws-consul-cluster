@@ -3,7 +3,7 @@ resource "template_file" "install" {
 
   vars {
     env        = "${var.env}"
-    datacenter = "${var.datacenter}"
+    datacenter = "${var.consul_datacenter}"
   }
 }
 
@@ -83,7 +83,7 @@ module "consul_instance_profile" {
   resource_tags = "${var.resource_tags}"
 }
 
-resource "aws_launch_configuration" "vault" {
+resource "aws_launch_configuration" "consul" {
   image_id             = "${data.aws_ami.consul.id}"
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"

@@ -45,7 +45,7 @@ resource "aws_iam_role" "consul" {
 resource "aws_iam_role_policy" "consul" {
   name   = "consul-${lookup(var.resource_tags, "ClusterName")}"
   role   = "${aws_iam_role.consul.id}"
-  policy = "${data.aws_iam_policy_document.vault.json}"
+  policy = "${data.aws_iam_policy_document.consul.json}"
 }
 
 resource "aws_iam_instance_profile" "consul" {
