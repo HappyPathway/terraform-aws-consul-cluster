@@ -4,6 +4,7 @@ resource "template_file" "install" {
   vars {
     env        = "${var.env}"
     datacenter = "${var.consul_datacenter}"
+    servers    = "${var.servers}"
   }
 }
 

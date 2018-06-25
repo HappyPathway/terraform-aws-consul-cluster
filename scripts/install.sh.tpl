@@ -23,7 +23,8 @@ cat << EOF > /etc/consul.d/consul-node.json
 {
     "advertise_addr": "$${ip_address}",
     "node_name": "$${hostname}",
-    "datacenter": "${datacenter}"
+    "datacenter": "${datacenter}",
+    "bootstrap_expect": "${servers}"
 }
 EOF
 
