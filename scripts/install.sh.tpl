@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 # Setup the configuration
 #consul conf
 hostname=$$(hostname)
