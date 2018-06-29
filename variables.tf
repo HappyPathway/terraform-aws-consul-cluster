@@ -59,7 +59,7 @@ variable "service_name" {
 variable "service_version" {
   description = "Version of AMI to user"
   type        = "string"
-  default     = "1.0.0"
+  default     = "1.2.0"
 }
 
 variable "availability_zone" {
